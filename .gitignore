@@ -33,6 +33,7 @@ bin
 *.idb
 *.gcno
 *.gcda
+*.obj.import
 
 # Gprof output
 gmon.out

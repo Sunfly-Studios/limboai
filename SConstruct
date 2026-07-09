@@ -13,6 +13,7 @@ Use --project=DIR to customize output path for built targets.
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 from limboai_version import generate_module_version_header, get_godot_cpp_ref
 
@@ -73,6 +74,13 @@ try:
     # This will work within our unified build-system
     Import("env")
     env = env.Clone()
+
+    # Override the variable to be in our `cxx/bin` directory
+    project_dir = "../bin/"
+
+    if not os.path.isdir(project_dir):
+        dir_path = Path(project_dir)
+        dir_path.mkdir(parents=True, exist_ok=True)
 except:
     # This will work if building standalone
     env = SConscript("../godot-cpp/SConstruct")
@@ -123,32 +131,32 @@ if env["target"] in ["editor", "template_debug"]:
 if env["platform"] == "macos":
     library = env.SharedLibrary(
         project_dir
-        + "/addons/limboai/bin/liblimboai.{}.{}.framework/liblimboai.{}.{}".format(
+        + "/limboai/bin/liblimboai.{}.{}.framework/liblimboai.{}.{}".format(
             env["platform"], env["target"], env["platform"], env["target"]
         ),
         source=sources,
     )
 else:
     library = env.SharedLibrary(
-        project_dir + "/addons/limboai/bin/liblimboai{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        project_dir + "/limboai/bin/liblimboai{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
         source=sources,
     )
 
 Default(library)
 
-# Deploy icons into PROJECT/addons/limboai/icons.
+# Deploy icons into PROJECT/limboai/icons.
 if deploy_icons:
     cmd_deploy_icons = env.Command(
-        project_dir + "/addons/limboai/icons/",
+        project_dir + "/limboai/icons/",
         "icons/",
         Copy("$TARGET", "$SOURCE"),
     )
     Default(cmd_deploy_icons)
 
-# Deploy limboai.gdextension into PROJECT/addons/limboai/bin.
+# Deploy limboai.gdextension into PROJECT/limboai/bin.
 if deploy_manifest:
     cmd_deploy_manifest = env.Command(
-        project_dir + "/addons/limboai/bin/limboai.gdextension",
+        project_dir + "/limboai/bin/limboai.gdextension",
         "gdextension/limboai.gdextension",
         Copy("$TARGET", "$SOURCE"),
     )
