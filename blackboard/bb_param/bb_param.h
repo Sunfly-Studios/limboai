@@ -63,7 +63,7 @@ public:
 #ifdef LIMBOAI_MODULE
 	virtual String _to_string() override;
 #elif LIMBOAI_GDEXTENSION
-	virtual String _to_string();
+	virtual String _to_string() const;
 #endif
 
 	virtual Variant::Type get_type() const { return Variant::NIL; }

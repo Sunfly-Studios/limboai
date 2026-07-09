@@ -314,6 +314,9 @@ String LimboUtility::get_property_hint_text(PropertyHint p_hint) const {
 		case PROPERTY_HINT_FLAGS: {
 			return "FLAGS";
 		}
+		case PROPERTY_HINT_INPUT_NAME: {
+			return "INPUT_NAME";
+		}
 		case PROPERTY_HINT_LAYERS_2D_RENDER: {
 			return "LAYERS_2D_RENDER";
 		}

@@ -46,7 +46,7 @@ void BBParam::set_variable(const StringName &p_variable) {
 #ifdef LIMBOAI_MODULE
 String BBParam::_to_string() {
 #elif LIMBOAI_GDEXTENSION
-String BBParam::_to_string() {
+String BBParam::_to_string() const {
 #endif
 	if (value_source == SAVED_VALUE) {
 		String s = saved_value.stringify();
