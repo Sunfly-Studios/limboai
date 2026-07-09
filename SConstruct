@@ -20,19 +20,6 @@ sys.path.append("gdextension")
 from fix_icon_imports import fix_icon_imports
 from update_icon_entries import update_icon_entries
 
-# Check if godot-cpp/ exists
-if not os.path.exists("godot-cpp"):
-    print("Directory godot-cpp/ not found. Cloning repository...")
-    result = subprocess.run(
-        ["git", "clone", "-b", get_godot_cpp_ref(), "https://github.com/godotengine/godot-cpp.git"],
-        check=True,
-        # capture_output=True
-    )
-    if result.returncode != 0:
-        print("Error: Cloning godot-cpp repository failed.")
-        Exit(1)
-    print("Finished cloning godot-cpp repository.")
-
 AddOption(
     "--project",
     dest="project",
@@ -82,7 +69,13 @@ for o in vars.options:
 # - CPPDEFINES are for pre-processor defines
 # - LINKFLAGS are for linking flags
 
-env = SConscript("godot-cpp/SConstruct")
+try:
+    # This will work within our unified build-system
+    Import("env")
+    env = env.Clone()
+except:
+    # This will work if building standalone
+    env = SConscript("../godot-cpp/SConstruct")
 
 # Generate version header.
 print("Generating LimboAI version header...")
