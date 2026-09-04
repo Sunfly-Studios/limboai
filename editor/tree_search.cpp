@@ -76,7 +76,8 @@ void TreeSearch::_clear_filter() {
 		return;
 	}
 
-	Vector<TreeItem *> items = { tree_reference->get_root() };
+	Vector<TreeItem *> items;
+	items.push_back(tree_reference->get_root());
 	for (int idx = 0; idx < items.size(); idx++) {
 		TreeItem *cur_item = items[idx];
 		cur_item->set_visible(true);
