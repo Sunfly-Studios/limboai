@@ -131,14 +131,14 @@ if env["target"] in ["editor", "template_debug"]:
 if env["platform"] == "macos":
     library = env.SharedLibrary(
         project_dir
-        + "/limboai/bin/liblimboai.{}.{}.framework/liblimboai.{}.{}".format(
+        + "/addons/limboai/bin/liblimboai.{}.{}.framework/liblimboai.{}.{}".format(
             env["platform"], env["target"], env["platform"], env["target"]
         ),
         source=sources,
     )
 else:
     library = env.SharedLibrary(
-        project_dir + "/limboai/bin/liblimboai{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        project_dir + "/addons/limboai/bin/liblimboai{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
         source=sources,
     )
 
@@ -147,7 +147,7 @@ Default(library)
 # Deploy icons into PROJECT/limboai/icons.
 if deploy_icons:
     cmd_deploy_icons = env.Command(
-        project_dir + "/limboai/icons/",
+        project_dir + "/addons/limboai/icons/",
         "icons/",
         Copy("$TARGET", "$SOURCE"),
     )
@@ -156,7 +156,7 @@ if deploy_icons:
 # Deploy limboai.gdextension into PROJECT/limboai/bin.
 if deploy_manifest:
     cmd_deploy_manifest = env.Command(
-        project_dir + "/limboai/bin/limboai.gdextension",
+        project_dir + "/addons/limboai/bin/limboai.gdextension",
         "gdextension/limboai.gdextension",
         Copy("$TARGET", "$SOURCE"),
     )
